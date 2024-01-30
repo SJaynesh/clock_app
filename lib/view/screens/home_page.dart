@@ -78,7 +78,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed('second_page');
+              },
               icon: const Icon(Icons.add),
               label: const Text("Add Items"),
             ),

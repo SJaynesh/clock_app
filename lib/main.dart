@@ -1,3 +1,4 @@
+import 'package:clock_app/view/screens/second_page.dart';
 import 'package:flutter/material.dart';
 import 'package:clock_app/view/screens/home_page.dart';
 
@@ -21,6 +22,7 @@ class ClockApp extends StatelessWidget {
         ),
         routes: {
           '/' : (context) => const HomePage(),
+          'second_page' : (context) => const SecondPage(),
         },
       );
 }
