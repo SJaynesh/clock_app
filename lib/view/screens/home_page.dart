@@ -1,3 +1,4 @@
+import 'package:clock_app/utils/routes.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -79,7 +80,7 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                Navigator.of(context).pushNamed('second_page');
+                Navigator.of(context).pushNamed(Routes.second_paqe);
               },
               icon: const Icon(Icons.add),
               label: const Text("Add Items"),
@@ -121,6 +122,16 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {},
               icon: const Icon(Icons.ac_unit),
               label: const Text("Cold"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.clock_page);
+              },
+              icon: const Icon(Icons.watch_later),
+              label: const Text("Watch Page"),
             ),
           ],
         ),

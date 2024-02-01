@@ -48,7 +48,7 @@ class _SecondPageState extends State<SecondPage> {
               // scale: 1.5,
               scaleX: 1,
               scaleY: 1.5,
-              child: CircularProgressIndicator(),
+              child: const CircularProgressIndicator(),
             ),
             Transform.translate(
               offset: const Offset(150, -300),
@@ -60,7 +60,7 @@ class _SecondPageState extends State<SecondPage> {
             ),
             Transform.rotate(
               angle: pi /5,
-              child: Text(
+              child: const Text(
                 "Hello World",
                 style: TextStyle(
                   fontSize: 25,
