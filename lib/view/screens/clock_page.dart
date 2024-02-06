@@ -15,6 +15,7 @@ class ClockPage extends StatefulWidget {
 class _ClockPageState extends State<ClockPage> {
   bool digitalSwitch = false;
   bool analogSwitch = false;
+  bool strapSwitch = false;
 
   DateTime dateTime = DateTime.now();
 
@@ -150,6 +151,34 @@ class _ClockPageState extends State<ClockPage> {
                 ),
               ),
             ),
+            ListTile(
+              leading: Text(
+                "03.",
+                style: TextStyle(
+                  fontSize: textScaler.scale(20),
+                ),
+              ),
+              title: Text(
+                "Strap Watch",
+                style: TextStyle(
+                  fontSize: textScaler.scale(22),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              subtitle: const Text("Clock"),
+              trailing: Theme(
+                data: ThemeData(
+                  useMaterial3: true,
+                ),
+                child: Switch(
+                  value: strapSwitch,
+                  onChanged: (val) {
+                    strapSwitch = val;
+                    setState(() {});
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -170,7 +199,7 @@ class _ClockPageState extends State<ClockPage> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Center(
-          child: (!digitalSwitch && !analogSwitch)
+          child: (!digitalSwitch && !analogSwitch && !strapSwitch)
               ? Image.asset("assets/images/clock.png")
               : Stack(
                   alignment: Alignment.center,
@@ -348,49 +377,121 @@ class _ClockPageState extends State<ClockPage> {
                     // 60 Divider
                     ...List.generate(
                       60,
-                      (index) => Transform.rotate(
-                        angle: (index * (pi * 2)) / 60,
-                        child: Divider(
-                          color: (index % 5 == 0) ? Colors.red : Colors.white,
-                          thickness: (index % 5 == 0) ? 5 : 2,
-                          endIndent: (index % 5 == 0) ? w * 0.85 : w * 0.88,
+                      (index) => Visibility(
+                        visible: analogSwitch,
+                        child: Transform.rotate(
+                          angle: (index * (pi * 2)) / 60,
+                          child: Divider(
+                            color: (index % 5 == 0) ? Colors.red : Colors.white,
+                            thickness: (index % 5 == 0) ? 5 : 2,
+                            endIndent: (index % 5 == 0) ? w * 0.85 : w * 0.88,
+                          ),
                         ),
                       ),
                     ),
 
+                    // CircleAvatar(
+                    //   backgroundColor: Colors.transparent,
+                    //   radius: w * 0.45,
+                    //   foregroundImage:
+                    //       AssetImage("assets/images/clock_preview.png"),
+                    // ),
+
                     // Second
-                    Divider(
-                      thickness: 4,
-                      color: Colors.green,
-                      indent: w * 0.088,
-                      endIndent: w * 0.38,
+                    Visibility(
+                      visible: analogSwitch,
+                      child: Transform.rotate(
+                        angle: pi / 2,
+                        child: Transform.rotate(
+                          angle: (second * (pi * 2)) / 60,
+                          child: Divider(
+                            thickness: 4,
+                            color: Colors.green,
+                            indent: w * 0.088,
+                            endIndent: w * 0.38,
+                          ),
+                        ),
+                      ),
                     ),
 
                     // Minutes
-                    Transform.rotate(
-                      angle: pi * 2,
-                      child: Divider(
-                        thickness: 6,
-                        color: Colors.yellow,
-                        indent: w * 0.2,
-                        endIndent: w * 0.48,
+                    Visibility(
+                      visible: analogSwitch,
+                      child: Transform.rotate(
+                        angle: (minute * (pi * 2)) / 60 + pi / 2,
+                        child: Divider(
+                          thickness: 6,
+                          color: Colors.yellow,
+                          indent: w * 0.2,
+                          endIndent: w * 0.48,
+                        ),
                       ),
                     ),
 
                     // Hour
-                    Transform.rotate(
-                      angle: pi * 2,
-                      child: Divider(
-                        thickness: 6,
-                        color: Colors.red,
-                        indent: w * 0.3,
-                        endIndent: w * 0.48,
+                    Visibility(
+                      visible: analogSwitch,
+                      child: Transform.rotate(
+                        angle: pi / 2,
+                        child: Transform.rotate(
+                          angle: ((hour + minute / 60) * (pi * 2)) / 12,
+                          child: Divider(
+                            thickness: 6,
+                            color: Colors.red,
+                            indent: w * 0.3,
+                            endIndent: w * 0.48,
+                          ),
+                        ),
                       ),
                     ),
 
                     // Dot
-                    CircleAvatar(
-                      radius: w * 0.02,
+                    Visibility(
+                      visible: analogSwitch,
+                      child: CircleAvatar(
+                        radius: w * 0.02,
+                      ),
+                    ),
+
+                    // STRAP WATCH
+
+                    // Second
+                    Visibility(
+                      visible: strapSwitch,
+                      child: Transform.scale(
+                        scale: 8,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1,
+                          color: Colors.green,
+                          value: second / 60,
+                        ),
+                      ),
+                    ),
+
+                    // Minute
+                    Visibility(
+                      visible: strapSwitch,
+                      child: Transform.scale(
+                        scale: 7,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1.2,
+                          color: Colors.yellow,
+                          value: minute / 60,
+                        ),
+                      ),
+                    ),
+
+                    // Hour
+                    Visibility(
+                      visible: strapSwitch,
+                      child: Transform.scale(
+                        scale: 6,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1.5,
+                          color: Colors.red,
+                          value: (hour + minute / 60) / 12,
+                        ),
+                      ),
                     ),
                   ],
                 ),
